@@ -30,6 +30,7 @@ def local_datalayer():
     statslayer = StatsLayer(memorylayer)                       # stats datalayer
     return statslayer
 
+
 def remote_datalayer(lowerlayer):
     authencryptionlayer = AuthEncryptionLayer(lowerlayer, key=enc_key)
     serializelayer = SerializeLayer(authencryptionlayer)
@@ -49,7 +50,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     N, S, levels, fanout, leafsize = attrgetter(
-            'accesses', 'servers', 'levels', 'fanout', 'leafsize')(args)
+        'accesses', 'servers', 'levels', 'fanout', 'leafsize')(args)
 
     print 'creating data ...'
     numdata  = S * leafsize * (fanout ** levels)
@@ -84,12 +85,12 @@ if __name__ == '__main__':
         config = ConfigParser()
         config.read(args.config)
         statslayers = [remote_datalayer(
-            ECSDataLayer(config.get('ecs', 'access_key'),
-                         config.get('ecs', 'secret_key'),
-                         config.get('ecs', 'bucket_name'),
-                         config.get('ecs', 'host'),
-                         config.getint('ecs', 'port'),
-                         config.getboolean('ecs', 'is_secure')))
+            ECSS3DataLayer(config.get('ecs', 'access_key'),
+                           config.get('ecs', 'secret_key'),
+                           config.get('ecs', 'bucket_name'),
+                           config.get('ecs', 'host'),
+                           config.getint('ecs', 'port'),
+                           config.getboolean('ecs', 'is_secure')))
                        for _ in xrange(S)]
 
     print 'putting contents ...'
