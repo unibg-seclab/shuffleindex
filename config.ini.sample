@@ -19,8 +19,8 @@ port =
 is_secure =
 
 [ecs_swift]
-user =
-password =
+username =
+key =
 authurl =
 namespace =
 bucket_name =

@@ -41,7 +41,7 @@ def remote_datalayer(lowerlayer):
 
 if __name__ == '__main__':
     parser = ArgumentParser(description='Test the Shuffle Index')
-    parser.add_argument('TEST', choices=['local', 'remote', 's3', 'ecs_s3'])
+    parser.add_argument('TEST', choices=['local', 'remote', 's3', 'ecs_s3', 'ecs_swift'])
     parser.add_argument('--accesses', type=int, default=N)
     parser.add_argument('--servers', type=int, default=S)
     parser.add_argument('--levels', type=int, default=levels)
