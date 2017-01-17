@@ -4,6 +4,7 @@ from shuffleindex.layers.data.memorylayer import *
 from shuffleindex.layers.serializelayer import *
 from shuffleindex.layers.statslayer import *
 from shuffleindex.layers.data.swift import *
+from shuffleindex.layers.data.ecs_swift import *
 from shuffleindex.layers.data.ecs_s3 import *
 from shuffleindex.layers.data.s3 import *
 from shuffleindex.multishuffleindex import *
@@ -91,6 +92,18 @@ if __name__ == '__main__':
                            config.get('ecs_s3', 'host'),
                            config.getint('ecs_s3', 'port'),
                            config.getboolean('ecs_s3', 'is_secure')))
+                       for _ in xrange(S)]
+
+    elif args.TEST == 'ecs_swift':
+        config = ConfigParser()
+        config.read(args.config)
+        statslayers = [remote_datalayer(
+            ECSSwiftDataLayer(config.get('ecs_swift', 'authurl'),
+                              config.get('ecs_swift', 'username'),
+                              config.get('ecs_swift', 'key'),
+                              config.get('ecs_swift', 'namespace'),
+                              config.get('ecs_swift', 'bucket_name'),
+                              config.get('ecs_swift', 'auth_version')))
                        for _ in xrange(S)]
 
     print 'putting contents ...'
