@@ -1,4 +1,4 @@
-.PHONY: all clean test local remote s3 ecs
+.PHONY: all clean test local remote s3 ecs_s3 ecs_swift
 
 VENV := venv
 
@@ -16,5 +16,5 @@ $(VENV): requirements.txt
 	@ virtualenv $(VENV)
 	@ $(VENV)/bin/pip install -r requirements.txt
 
-local remote s3 ecs: $(VENV)
+local remote s3 ecs_s3 ecs_swift: $(VENV)
 	@ $(VENV)/bin/python bench.py $@
