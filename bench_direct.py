@@ -4,7 +4,7 @@ from shuffleindex.layers.data.memorylayer import *
 from shuffleindex.layers.serializelayer import *
 from shuffleindex.layers.statslayer import *
 from shuffleindex.layers.data.swift import *
-from shuffleindex.layers.data.ecs import *
+from shuffleindex.layers.data.ecs_s3 import *
 from shuffleindex.layers.data.s3 import *
 from shuffleindex.multishuffleindex import *
 from ConfigParser import ConfigParser
@@ -30,6 +30,7 @@ def local_datalayer():
     statslayer = StatsLayer(memorylayer)                       # stats datalayer
     return statslayer
 
+
 def remote_datalayer(lowerlayer):
     authencryptionlayer = AuthEncryptionLayer(lowerlayer, key=enc_key)
     serializelayer = SerializeLayer(authencryptionlayer)
@@ -39,7 +40,7 @@ def remote_datalayer(lowerlayer):
 
 if __name__ == '__main__':
     parser = ArgumentParser(description='Test the Direct Search Layer')
-    parser.add_argument('TEST', choices=['local', 'remote', 's3', 'ecs'])
+    parser.add_argument('TEST', choices=['local', 'remote', 's3', 'ecs_s3'])
     parser.add_argument('--accesses', type=int, default=N)
     parser.add_argument('--servers', type=int, default=S)
     parser.add_argument('--levels', type=int, default=levels)
@@ -49,12 +50,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     N, S, levels, fanout, leafsize = attrgetter(
-            'accesses', 'servers', 'levels', 'fanout', 'leafsize')(args)
+        'accesses', 'servers', 'levels', 'fanout', 'leafsize')(args)
 
     print 'creating data ...'
-    numdata  = S * leafsize * (fanout ** levels)
-    values   = (printable * (1 + numdata // len(printable)))[:numdata]
-    data     = dict(enumerate(values))                             # create data
+    numdata = S * leafsize * (fanout ** levels)
+    values  = (printable * (1 + numdata // len(printable)))[:numdata]
+    data    = dict(enumerate(values))                             # create data
     assert len(data) == numdata
 
     if args.TEST == 'local':
@@ -80,16 +81,16 @@ if __name__ == '__main__':
                         config.get('s3', 'bucket_name')))
                        for _ in xrange(S)]
 
-    elif args.TEST == 'ecs':
+    elif args.TEST == 'ecs_s3':
         config = ConfigParser()
         config.read(args.config)
         statslayers = [remote_datalayer(
-            ECSDataLayer(config.get('ecs', 'access_key'),
-                         config.get('ecs', 'secret_key'),
-                         config.get('ecs', 'bucket_name'),
-                         config.get('ecs', 'host'),
-                         config.getint('ecs', 'port'),
-                         config.getboolean('ecs', 'is_secure')))
+            ECSS3DataLayer(config.get('ecs_s3', 'access_key'),
+                           config.get('ecs_s3', 'secret_key'),
+                           config.get('ecs_s3', 'bucket_name'),
+                           config.get('ecs_s3', 'host'),
+                           config.getint('ecs_s3', 'port'),
+                           config.getboolean('ecs_s3', 'is_secure')))
                        for _ in xrange(S)]
 
     print 'putting contents ...'
