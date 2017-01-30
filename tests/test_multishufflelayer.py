@@ -56,7 +56,7 @@ class TestShuffleLayer:
         for i in xrange(N): self.datalayer.get(0)
         self._plot_results('tests/figure_multishufflelayer_worst', N)
 
-    def _plot_results(self, pathprefix):
+    def _plot_results(self, pathprefix, N):
         plt.figure(figsize=(4,6))
         for row, statslayer in enumerate(self.statslayers, start=1):
             plt.subplot(len(self.statslayers), 1, row)
