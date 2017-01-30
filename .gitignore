@@ -97,6 +97,7 @@ ENV/
 
 # Config files
 tests/configs/swift.py
+tests/configs/ecs_swift.py
 tests/configs/gcs.py
 tests/configs/*.json
 

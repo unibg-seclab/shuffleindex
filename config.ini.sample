@@ -10,10 +10,17 @@ access_key =
 secret_key =
 bucket_name =
 
-[ecs]
+[ecs_s3]
 access_key =
 secret_key =
 bucket_name =
 host =
 port =
 is_secure =
+
+[ecs_swift]
+username =
+key =
+authurl =
+namespace =
+bucket_name =
