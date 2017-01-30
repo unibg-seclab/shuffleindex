@@ -47,17 +47,18 @@ class TestMultiDirectSearchLayer:
 
     def test_direct_gaussian(self, N):
         for i in xrange(N): self.datalayer.get(gaussrange(numdata))
-        self._plot_results('tests/figure_multidirectsearch_gaussian')
+        self._plot_results('tests/figure_multidirectsearch_gaussian', N)
 
     def test_direct_worst(self, N):
         for i in xrange(N): self.datalayer.get(numdata // 2)
-        self._plot_results('tests/figure_multidirectsearch_worst')
+        self._plot_results('tests/figure_multidirectsearch_worst', N)
 
-    def _plot_results(self, pathprefix):
+    def _plot_results(self, pathprefix, N):
         plt.figure(figsize=(4,6))
         for row, statslayer in enumerate(self.statslayers, start=1):
             plt.subplot(len(self.statslayers), 1, row)
             plt.yscale('log')
+            plt.ylim(1, N)
             statslayer.plot_get(show=False, title='read (server %d)' % row)
 
         plt.tight_layout()
@@ -68,6 +69,7 @@ class TestMultiDirectSearchLayer:
         for row, statslayer in enumerate(self.statslayers, start=1):
             plt.subplot(len(self.statslayers), 1, row)
             plt.yscale('log')
+            plt.ylim(1, N)
             statslayer.plot_put(show=False, title='write (server %d)' % row)
 
         plt.tight_layout()
