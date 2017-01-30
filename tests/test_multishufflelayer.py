@@ -62,6 +62,7 @@ class TestShuffleLayer:
             plt.subplot(len(self.statslayers), 1, row)
             plt.yscale('log')
             plt.ylim(1, N)
+            plt.gca().yaxis.tick_left()
             statslayer.plot_get(show=False, title='read (server %d)' % row)
 
         plt.tight_layout()
@@ -73,6 +74,7 @@ class TestShuffleLayer:
             plt.subplot(len(self.statslayers), 1, row)
             plt.yscale('log')
             plt.ylim(1, N)
+            plt.gca().yaxis.tick_left()
             statslayer.plot_put(show=False, title='write (server %d)' % row)
 
         plt.tight_layout()
